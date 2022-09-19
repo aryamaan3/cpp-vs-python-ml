@@ -14,7 +14,7 @@ dataHandler::dataHandler()
 
 dataHandler::~dataHandler()
 {
-    //might be useless
+    // might be useless
 }
 
 void dataHandler::readFeatureVector(std::string path)
@@ -128,7 +128,6 @@ void dataHandler::splitData()
     std::cout << "Val data size = " << _valData->size() << "\n";
 }
 
-
 void dataHandler::countClasses()
 {
     int count = 0;
@@ -145,26 +144,20 @@ void dataHandler::countClasses()
     std::cout << "Number of classes = " << _numClasses << "\n";
 }
 
-
-
 uint32_t dataHandler::convertToLittleEndian(const unsigned char *bytes)
 {
-    return (uint32_t) (bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3]);
+    return (uint32_t)(bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3]);
 }
-
-
 
 std::shared_ptr<std::vector<std::shared_ptr<data>>> dataHandler::getTrainingData()
 {
     return _trainingData;
 }
 
-
 std::shared_ptr<std::vector<std::shared_ptr<data>>> dataHandler::getTestData()
 {
     return _testData;
 }
-
 
 std::shared_ptr<std::vector<std::shared_ptr<data>>> dataHandler::getValData()
 {

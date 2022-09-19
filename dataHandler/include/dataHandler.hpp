@@ -9,7 +9,6 @@
 #include <map>
 #include <unordered_set>
 
-
 class dataHandler
 {
     std::shared_ptr<std::vector<std::shared_ptr<data>>> _dataArray;
@@ -25,8 +24,7 @@ class dataHandler
     constexpr static auto TEST_DATA_PERCENT = 0.10;
     constexpr static auto VAL_DATA_PERCENT = 0.10;
 
-    public:
-
+public:
     dataHandler();
     ~dataHandler();
 

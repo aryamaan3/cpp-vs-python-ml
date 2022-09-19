@@ -12,8 +12,7 @@ class data
     uint8_t _label;
     int _enumLabel; // to compare label as int, A->1 B->2 C->3...
 
-    public:
-
+public:
     data();
     ~data();
 
@@ -26,5 +25,4 @@ class data
     std::shared_ptr<std::vector<uint8_t>> getFeatureVector();
     uint8_t getLabel();
     int getEnumLabel();
-
 };

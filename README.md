@@ -1,1 +1,1 @@
-# mnist-knn-cpp
+# C++ vs Python for machine learning

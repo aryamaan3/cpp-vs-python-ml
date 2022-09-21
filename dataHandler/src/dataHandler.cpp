@@ -6,10 +6,10 @@ constexpr static auto OFFSET_LABELS = 2;
 
 DataHandler::DataHandler()
 {
-    dataArray = new std::vector<Data*>();
-    trainingData = new std::vector<Data*>();
-    testData = new std::vector<Data*>();
-    validationData = new std::vector<Data*>();
+    dataArray = new std::vector<Data *>();
+    trainingData = new std::vector<Data *>();
+    testData = new std::vector<Data *>();
+    validationData = new std::vector<Data *>();
 }
 
 DataHandler::~DataHandler()
@@ -29,18 +29,18 @@ void DataHandler::readInputData(std::string aPath)
         exit(1);
     }
 
-    for (int i = 0; i < OFFSET_FEATURES; ++i)
+    for (auto i = 0; i < OFFSET_FEATURES; ++i)
     {
         fread(bytes, sizeof(bytes), 1, file);
         header[i] = convertToLittleEndian(bytes);
     }
 
-    int itemSize = header[2] * header[3];
-    for (int i = 0; i < header[1]; ++i)
+    auto itemSize = header[2] * header[3];
+    for (auto i = 0; i < header[1]; ++i)
     {
         auto d = new Data();
         uint8_t element[1];
-        for (int j = 0; j < itemSize; ++j)
+        for (auto j = 0; j < itemSize; ++j)
         {
             fread(element, sizeof(element), 1, file);
             d->appendFeatureVector(element[0]);
@@ -63,13 +63,13 @@ void DataHandler::readLabelData(std::string aPath)
         exit(1);
     }
 
-    for (int i = 0; i < OFFSET_LABELS; ++i)
+    for (auto i = 0; i < OFFSET_LABELS; ++i)
     {
         fread(bytes, sizeof(bytes), 1, file);
         header[i] = convertToLittleEndian(bytes);
     }
 
-    for (int i = 0; i < header[1]; ++i)
+    for (auto i = 0; i < header[1]; ++i)
     {
         uint8_t element[1];
         fread(element, sizeof(element), 1, file);
@@ -82,9 +82,9 @@ void DataHandler::readLabelData(std::string aPath)
 void DataHandler::splitData()
 {
     std::unordered_set<int> usedIndexes;
-    int trainingDataSize = dataArray->size() * TRAINING_DATA_PERCENT;
-    int testDataSize = dataArray->size() * TEST_DATA_PERCENT;
-    int valDataSize = dataArray->size() * VAL_DATA_PERCENT;
+    auto trainingDataSize = dataArray->size() * TRAINING_DATA_PERCENT;
+    auto testDataSize = dataArray->size() * TEST_DATA_PERCENT;
+    auto valDataSize = dataArray->size() * VAL_DATA_PERCENT;
 
     for (auto i = 0; i < trainingDataSize; ++i)
     {
@@ -126,7 +126,7 @@ void DataHandler::splitData()
 
 void DataHandler::countClasses()
 {
-    int count = 0;
+    auto count = 0;
     for (auto i = 0U; i < dataArray->size(); ++i)
     {
         if (classFromInt.find(dataArray->at(i)->getLabel()) == classFromInt.end())

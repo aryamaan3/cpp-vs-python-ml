@@ -21,4 +21,5 @@ public:
     int predict();
     double calculateDistance(Data *queryPoint, Data *input);
     double test(int nbOfTest);
+    int predictOne(Data *queryPoint);
 };

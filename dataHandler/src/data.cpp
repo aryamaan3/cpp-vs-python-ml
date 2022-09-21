@@ -9,7 +9,7 @@ Data::~Data()
 {
 }
 
-void Data::setFeatureVector(std::vector<uint8_t>* aFeatureVector)
+void Data::setFeatureVector(std::vector<uint8_t> *aFeatureVector)
 {
     _featureVector = aFeatureVector;
 }
@@ -39,7 +39,7 @@ int Data::getFeatureVectorSize()
     return _featureVector->size();
 }
 
-std::vector<uint8_t>* Data::getFeatureVector()
+std::vector<uint8_t> *Data::getFeatureVector()
 {
     return _featureVector;
 }

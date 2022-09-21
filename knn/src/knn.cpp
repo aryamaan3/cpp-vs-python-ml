@@ -5,7 +5,6 @@
 #include <map>
 #include "stdint.h"
 #include "dataHandler.hpp"
-#include <memory>
 #include <iostream>
 #include <chrono>
 
@@ -13,43 +12,18 @@ using namespace std::chrono;
 
 void KNN::findKNearest(Data *queryPoint)
 {
-    neighbors = new std::vector<Data*>;
-    auto min = std::numeric_limits<double>::max();
-    auto previousMin = min;
-    int index;
-    for (auto i = 0; i < k; i++)
+    neighbors = new std::vector<Data *>();
+    for (auto &data : *trainingData)
     {
-        if (i == 0)
-        {
-            for (auto j = 0; j < trainingData->size(); j++)
-            {
-                double dist = calculateDistance(queryPoint, trainingData->at(j));
-                trainingData->at(j)->setDistance(dist);
-                if (dist < min)
-                {
-                    min = dist;
-                    index = j;
-                }
-            }
-            neighbors->push_back(trainingData->at(index));
-            previousMin = min;
-            min = std::numeric_limits<double>::max();
-        }
-        else
-        {
-            for (int j = 0; j < trainingData->size(); j++)
-            {
-                double dist = trainingData->at(j)->getDistance();
-                if (dist > previousMin && dist < min)
-                {
-                    min = dist;
-                    index = j;
-                }
-            }
-            neighbors->push_back(trainingData->at(index));
-            previousMin = min;
-            min = std::numeric_limits<double>::max();
-        }
+        data->setDistance(calculateDistance(queryPoint, data));
+    }
+
+    std::sort(trainingData->begin(), trainingData->end(), [](Data *a, Data *b)
+              { return a->getDistance() < b->getDistance(); });
+
+    for (int i = 0; i < k; i++)
+    {
+        neighbors->push_back(trainingData->at(i));
     }
 }
 void KNN::setK(int val)
@@ -60,15 +34,15 @@ void KNN::setK(int val)
 int KNN::predict()
 {
     std::map<uint8_t, int> frequencyMap;
-    for (int i = 0; i < neighbors->size(); i++)
+    for (auto aNeighbor : *neighbors)
     {
-        if (frequencyMap.find(neighbors->at(i)->getLabel()) == frequencyMap.end())
+        if (frequencyMap.find(aNeighbor->getLabel()) == frequencyMap.end())
         {
-            frequencyMap[neighbors->at(i)->getLabel()] = 1;
+            frequencyMap[aNeighbor->getLabel()] = 1;
         }
         else
         {
-            frequencyMap[neighbors->at(i)->getLabel()]++;
+            frequencyMap[aNeighbor->getLabel()]++;
         }
     }
 
@@ -89,14 +63,14 @@ int KNN::predict()
 
 double KNN::calculateDistance(Data *queryPoint, Data *input)
 {
-    double value = 0;
+    auto value = 0.0;
     if (queryPoint->getFeatureVectorSize() != input->getFeatureVectorSize())
     {
-        printf("Vector size mismatch.\n");
+        std::cout << ("Vector size mismatch.\n");
         exit(1);
     }
 
-    for (unsigned i = 0; i < queryPoint->getFeatureVectorSize(); i++)
+    for (auto i = 0U; i < queryPoint->getFeatureVectorSize(); i++)
     {
         value += pow(queryPoint->getFeatureVector()->at(i) - input->getFeatureVector()->at(i), 2);
     }
@@ -104,10 +78,15 @@ double KNN::calculateDistance(Data *queryPoint, Data *input)
     return sqrt(value);
 }
 
+int KNN::predictOne(Data *queryPoint)
+{
+    findKNearest(queryPoint);
+    return predict();
+}
+
 double KNN::test(int nbOfTest)
 {
-    std::cout << "------------------\n";
-    std::cout << "Testing slow...\n";
+    std::cout << "\n------------------\n";
 
     std::vector<double> times;
     double sumOfTimes = 0.0;
@@ -131,11 +110,10 @@ double KNN::test(int nbOfTest)
         }
     }
 
-    std::cout << "Correct: " << correct << " out of " << nbOfTest << "\n";
+    std::cout << "For k : " << k << ":\n";
     std::cout << "Accuracy: " << (double)correct / nbOfTest * 100 << "%\n";
-    std::cout << "------------------\n";
-    std::cout << "Total time: " << (double)sumOfTimes / 1000000 << " s\n";
-    std::cout << "Average time: : " << (double)((sumOfTimes / nbOfTest) / 1000000) << " s\n";
+    std::cout << "Total Time: " << (double)sumOfTimes / 1000000 << " s\n";
+    std::cout << "Average Time: : " << (double)((sumOfTimes / nbOfTest) / 1000000) << " s\n";
 
     return (double)correct / nbOfTest;
 }
@@ -152,5 +130,5 @@ int main()
     dh.splitData();
 
     auto model = std::make_unique<KNN>(1, dh.getTrainingData(), dh.getTestData());
-    model->test(10);
+    model->test(100);
 }

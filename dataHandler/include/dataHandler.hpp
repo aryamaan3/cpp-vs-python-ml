@@ -11,10 +11,10 @@
 
 class DataHandler
 {
-    std::vector<Data*>* dataArray;
-    std::vector<Data*>* trainingData;
-    std::vector<Data*>* testData;
-    std::vector<Data*>* validationData;
+    std::vector<Data *> *dataArray;
+    std::vector<Data *> *trainingData;
+    std::vector<Data *> *testData;
+    std::vector<Data *> *validationData;
 
     int numClasses;
     int featureVectorSize;
@@ -35,8 +35,8 @@ public:
 
     uint32_t convertToLittleEndian(const unsigned char *bytes);
 
-    std::vector<Data*>* getDataArray() { return dataArray; }
-    std::vector<Data*>* getTrainingData() { return trainingData; }
-    std::vector<Data*>* getTestData() { return testData; }
-    std::vector<Data*>* getValData() { return validationData; }
+    std::vector<Data *> *getDataArray() { return dataArray; }
+    std::vector<Data *> *getTrainingData() { return trainingData; }
+    std::vector<Data *> *getTestData() { return testData; }
+    std::vector<Data *> *getValData() { return validationData; }
 };

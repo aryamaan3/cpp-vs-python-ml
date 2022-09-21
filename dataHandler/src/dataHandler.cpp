@@ -17,15 +17,15 @@ dataHandler::~dataHandler()
     // might be useless
 }
 
-void dataHandler::readFeatureVector(std::string path)
+void dataHandler::readFeatureVector(std::string aPath)
 {
     uint32_t header[OFFSET_FEATURES]; // MAGIC, NBITEMS, NBROWS, NBCOLS
     unsigned char bytes[OFFSET_FEATURES];
-    FILE *file = fopen(path.c_str(), "r");
+    FILE *file = fopen(aPath.c_str(), "r");
 
     if (file == NULL)
     {
-        std::cout << "Could not open file " << path << "\n";
+        std::cout << "Could not open file " << aPath << "\n";
         exit(1);
     }
 
@@ -51,15 +51,15 @@ void dataHandler::readFeatureVector(std::string path)
     std::cout << "Retrieved features, size = " << _dataArray->size() << "\n";
 }
 
-void dataHandler::readLabel(std::string path)
+void dataHandler::readLabel(std::string aPath)
 {
     uint32_t header[OFFSET_LABELS]; // MAGIC, NBITEMS
     unsigned char bytes[OFFSET_FEATURES];
-    FILE *file = fopen(path.c_str(), "rb");
+    FILE *file = fopen(aPath.c_str(), "rb");
 
     if (file == NULL)
     {
-        std::cout << "Could not open file " << path << "\n";
+        std::cout << "Could not open file " << aPath << "\n";
         exit(1);
     }
 
@@ -68,10 +68,6 @@ void dataHandler::readLabel(std::string path)
         fread(bytes, sizeof(bytes), 1, file);
         header[i] = convertToLittleEndian(bytes);
     }
-
-    std::cout << "Retrieved label header from " << path << "\n";
-    std::cout << "Magic number: " << header[0] << "\n";
-    std::cout << "Number of items = " << header[1] << "\n";
 
     for (int i = 0; i < header[1]; ++i)
     {
@@ -147,33 +143,4 @@ void dataHandler::countClasses()
 uint32_t dataHandler::convertToLittleEndian(const unsigned char *bytes)
 {
     return (uint32_t)(bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3]);
-}
-
-std::shared_ptr<std::vector<std::shared_ptr<data>>> dataHandler::getTrainingData()
-{
-    return _trainingData;
-}
-
-std::shared_ptr<std::vector<std::shared_ptr<data>>> dataHandler::getTestData()
-{
-    return _testData;
-}
-
-std::shared_ptr<std::vector<std::shared_ptr<data>>> dataHandler::getValData()
-{
-    return _valData;
-}
-
-int main()
-{
-    std::string trainFeaturePath = "../assets/train-images.idx3-ubyte";
-    std::string trainLabelPath = "../assets/train-labels.idx1-ubyte";
-
-    dataHandler dh;
-    dh.readFeatureVector(trainFeaturePath);
-    dh.readLabel(trainLabelPath);
-    dh.countClasses();
-    dh.splitData();
-
-    return 0;
 }

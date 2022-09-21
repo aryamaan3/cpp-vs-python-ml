@@ -71,6 +71,8 @@
         "functional": "cpp",
         "iterator": "cpp",
         "utility": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "numeric": "cpp",
+        "random": "cpp"
     }
 }

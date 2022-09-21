@@ -29,6 +29,11 @@ void data::setEnumLabel(int aEnumLabel)
     _enumLabel = aEnumLabel;
 }
 
+void data::setDistance(double aDistance)
+{
+    _distance = aDistance;
+}
+
 int data::getFeatureVectorSize()
 {
     return _featureVector->size();
@@ -47,4 +52,9 @@ uint8_t data::getLabel()
 int data::getEnumLabel()
 {
     return _enumLabel;
+}
+
+double data::getDistance()
+{
+    return _distance;
 }

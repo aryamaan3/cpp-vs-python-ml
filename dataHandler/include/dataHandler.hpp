@@ -21,8 +21,8 @@ class dataHandler
     std::map<uint8_t, int> _labelMap;
 
     constexpr static auto TRAINING_DATA_PERCENT = 0.80;
-    constexpr static auto TEST_DATA_PERCENT = 0.10;
-    constexpr static auto VAL_DATA_PERCENT = 0.10;
+    constexpr static auto TEST_DATA_PERCENT = 0.20;
+    constexpr static auto VAL_DATA_PERCENT = 0.0;
 
 public:
     dataHandler();
@@ -35,7 +35,8 @@ public:
 
     uint32_t convertToLittleEndian(const unsigned char *bytes);
 
-    std::shared_ptr<std::vector<std::shared_ptr<data>>> getTrainingData();
-    std::shared_ptr<std::vector<std::shared_ptr<data>>> getTestData();
-    std::shared_ptr<std::vector<std::shared_ptr<data>>> getValData();
+    std::shared_ptr<std::vector<std::shared_ptr<data>>> getDataArray() { return _dataArray; }
+    std::shared_ptr<std::vector<std::shared_ptr<data>>> getTrainingData() { return _trainingData; }
+    std::shared_ptr<std::vector<std::shared_ptr<data>>> getTestData() { return _testData; }
+    std::shared_ptr<std::vector<std::shared_ptr<data>>> getValData() { return _valData; }
 };

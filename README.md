@@ -74,7 +74,7 @@ J'ai utilisé [Makefile](https://opensource.com/article/18/8/what-how-makefile) 
 
 Les deux programmes ont été exécutés sur la même machine. Le C++ est compilé avec l'optimisateur O3.
 
-| Nb | k | Python | C++ | Ratio |
+| Nb | k | Python | C++ | Diff(%) |
 | --- | --- | --- | --- | --- |
 | 10 | 1 | 3,0 | 2,4 | 25 |
 | 10 | 2 | 3,2 | 2,7 | 18,5 |

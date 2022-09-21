@@ -105,13 +105,19 @@ Ouvrir un terminal dans la racine du projet
 
 ### Python
 
-`$ cd py_knn`
+```bash
+$ cd py_knn
+```
 
-`$ python knn.py`
+```bash
+$ python knn.py
+```
 
 ### C++
 
-`$ build_cpp.sh`
+```bash
+$ build_cpp.sh
+```
 
 Ou suivre les commandes dans [build_cpp.sh](https://github.com/aryamaan3/cpp-vs-python-ml/blob/main/build_cpp.sh) si vous n'êtes pas en bash
 

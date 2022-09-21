@@ -1,7 +1,7 @@
 CC=g++
 INCLUDE_DIR := $(MNIST_ROOT)/knn/include
 SRC := $(MNIST_ROOT)/knn/src
-CFLAGS := -std=c++17 -g
+CFLAGS := -std=c++17 -g -O3
 
 all: main
 

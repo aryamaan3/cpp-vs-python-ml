@@ -9,34 +9,34 @@
 #include <map>
 #include <unordered_set>
 
-class dataHandler
+class DataHandler
 {
-    std::shared_ptr<std::vector<std::shared_ptr<data>>> _dataArray;
-    std::shared_ptr<std::vector<std::shared_ptr<data>>> _trainingData;
-    std::shared_ptr<std::vector<std::shared_ptr<data>>> _testData;
-    std::shared_ptr<std::vector<std::shared_ptr<data>>> _valData;
+    std::vector<Data*>* dataArray;
+    std::vector<Data*>* trainingData;
+    std::vector<Data*>* testData;
+    std::vector<Data*>* validationData;
 
-    int _numClasses;
-    int _featureVectorSize;
-    std::map<uint8_t, int> _labelMap;
+    int numClasses;
+    int featureVectorSize;
+    std::map<uint8_t, int> classFromInt;
 
     constexpr static auto TRAINING_DATA_PERCENT = 0.80;
     constexpr static auto TEST_DATA_PERCENT = 0.20;
     constexpr static auto VAL_DATA_PERCENT = 0.0;
 
 public:
-    dataHandler();
-    ~dataHandler();
+    DataHandler();
+    ~DataHandler();
 
-    void readFeatureVector(std::string path);
-    void readLabel(std::string path);
+    void readInputData(std::string path);
+    void readLabelData(std::string path);
     void splitData();
     void countClasses();
 
     uint32_t convertToLittleEndian(const unsigned char *bytes);
 
-    std::shared_ptr<std::vector<std::shared_ptr<data>>> getDataArray() { return _dataArray; }
-    std::shared_ptr<std::vector<std::shared_ptr<data>>> getTrainingData() { return _trainingData; }
-    std::shared_ptr<std::vector<std::shared_ptr<data>>> getTestData() { return _testData; }
-    std::shared_ptr<std::vector<std::shared_ptr<data>>> getValData() { return _valData; }
+    std::vector<Data*>* getDataArray() { return dataArray; }
+    std::vector<Data*>* getTrainingData() { return trainingData; }
+    std::vector<Data*>* getTestData() { return testData; }
+    std::vector<Data*>* getValData() { return validationData; }
 };

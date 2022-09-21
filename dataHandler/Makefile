@@ -1,7 +1,7 @@
 CC=g++
 INCLUDE_DIR := $(MNIST_ROOT)/dataHandler/include
 SRC := $(MNIST_ROOT)/dataHandler/src
-CFLAGS := -shared -std=c++17 -g
+CFLAGS := -shared -std=c++17 -g -O3
 LIBRARY := libdata.so
 
 all: $(LIBRARY)

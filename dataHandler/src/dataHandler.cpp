@@ -4,20 +4,20 @@
 constexpr static auto OFFSET_FEATURES = 4;
 constexpr static auto OFFSET_LABELS = 2;
 
-dataHandler::dataHandler()
+DataHandler::DataHandler()
 {
-    _dataArray = std::make_shared<std::vector<std::shared_ptr<data>>>();
-    _trainingData = std::make_shared<std::vector<std::shared_ptr<data>>>();
-    _testData = std::make_shared<std::vector<std::shared_ptr<data>>>();
-    _valData = std::make_shared<std::vector<std::shared_ptr<data>>>();
+    dataArray = new std::vector<Data*>();
+    trainingData = new std::vector<Data*>();
+    testData = new std::vector<Data*>();
+    validationData = new std::vector<Data*>();
 }
 
-dataHandler::~dataHandler()
+DataHandler::~DataHandler()
 {
     // might be useless
 }
 
-void dataHandler::readFeatureVector(std::string aPath)
+void DataHandler::readInputData(std::string aPath)
 {
     uint32_t header[OFFSET_FEATURES]; // MAGIC, NBITEMS, NBROWS, NBCOLS
     unsigned char bytes[OFFSET_FEATURES];
@@ -38,20 +38,20 @@ void dataHandler::readFeatureVector(std::string aPath)
     int itemSize = header[2] * header[3];
     for (int i = 0; i < header[1]; ++i)
     {
-        std::shared_ptr<data> d = std::make_shared<data>();
+        auto d = new Data();
         uint8_t element[1];
         for (int j = 0; j < itemSize; ++j)
         {
             fread(element, sizeof(element), 1, file);
             d->appendFeatureVector(element[0]);
         }
-        _dataArray->push_back(d);
+        dataArray->push_back(d);
     }
 
-    std::cout << "Retrieved features, size = " << _dataArray->size() << "\n";
+    std::cout << "Retrieved features, size = " << dataArray->size() << "\n";
 }
 
-void dataHandler::readLabel(std::string aPath)
+void DataHandler::readLabelData(std::string aPath)
 {
     uint32_t header[OFFSET_LABELS]; // MAGIC, NBITEMS
     unsigned char bytes[OFFSET_FEATURES];
@@ -73,74 +73,74 @@ void dataHandler::readLabel(std::string aPath)
     {
         uint8_t element[1];
         fread(element, sizeof(element), 1, file);
-        _dataArray->at(i)->setLabel(element[0]);
+        dataArray->at(i)->setLabel(element[0]);
     }
 
-    std::cout << "Retrieved labels, size = " << _dataArray->size() << "\n";
+    std::cout << "Retrieved labels, size = " << dataArray->size() << "\n";
 }
 
-void dataHandler::splitData()
+void DataHandler::splitData()
 {
     std::unordered_set<int> usedIndexes;
-    int trainingDataSize = _dataArray->size() * TRAINING_DATA_PERCENT;
-    int testDataSize = _dataArray->size() * TEST_DATA_PERCENT;
-    int valDataSize = _dataArray->size() * VAL_DATA_PERCENT;
+    int trainingDataSize = dataArray->size() * TRAINING_DATA_PERCENT;
+    int testDataSize = dataArray->size() * TEST_DATA_PERCENT;
+    int valDataSize = dataArray->size() * VAL_DATA_PERCENT;
 
     for (auto i = 0; i < trainingDataSize; ++i)
     {
-        auto index = rand() % _dataArray->size();
+        auto index = rand() % dataArray->size();
         while (usedIndexes.find(index) != usedIndexes.end())
         {
-            index = rand() % _dataArray->size();
+            index = rand() % dataArray->size();
         }
         usedIndexes.insert(index);
-        _trainingData->push_back(_dataArray->at(index));
+        trainingData->push_back(dataArray->at(index));
     }
 
     for (auto i = 0; i < testDataSize; ++i)
     {
-        auto index = rand() % _dataArray->size();
+        auto index = rand() % dataArray->size();
         while (usedIndexes.find(index) != usedIndexes.end())
         {
-            index = rand() % _dataArray->size();
+            index = rand() % dataArray->size();
         }
         usedIndexes.insert(index);
-        _testData->push_back(_dataArray->at(index));
+        testData->push_back(dataArray->at(index));
     }
 
     for (auto i = 0; i < valDataSize; ++i)
     {
-        auto index = rand() % _dataArray->size();
+        auto index = rand() % dataArray->size();
         while (usedIndexes.find(index) != usedIndexes.end())
         {
-            index = rand() % _dataArray->size();
+            index = rand() % dataArray->size();
         }
         usedIndexes.insert(index);
-        _valData->push_back(_dataArray->at(index));
+        validationData->push_back(dataArray->at(index));
     }
 
-    std::cout << "Training data size = " << _trainingData->size() << "\n";
-    std::cout << "Test data size = " << _testData->size() << "\n";
-    std::cout << "Val data size = " << _valData->size() << "\n";
+    std::cout << "Training data size = " << trainingData->size() << "\n";
+    std::cout << "Test data size = " << testData->size() << "\n";
+    std::cout << "Val data size = " << validationData->size() << "\n";
 }
 
-void dataHandler::countClasses()
+void DataHandler::countClasses()
 {
     int count = 0;
-    for (auto i = 0U; i < _dataArray->size(); ++i)
+    for (auto i = 0U; i < dataArray->size(); ++i)
     {
-        if (_labelMap.find(_dataArray->at(i)->getLabel()) == _labelMap.end())
+        if (classFromInt.find(dataArray->at(i)->getLabel()) == classFromInt.end())
         {
-            _labelMap[_dataArray->at(i)->getLabel()] = count;
-            _dataArray->at(i)->setEnumLabel(count);
+            classFromInt[dataArray->at(i)->getLabel()] = count;
+            dataArray->at(i)->setEnumLabel(count);
             ++count;
         }
     }
-    _numClasses = count;
-    std::cout << "Number of classes = " << _numClasses << "\n";
+    numClasses = count;
+    std::cout << "Number of classes = " << numClasses << "\n";
 }
 
-uint32_t dataHandler::convertToLittleEndian(const unsigned char *bytes)
+uint32_t DataHandler::convertToLittleEndian(const unsigned char *bytes)
 {
     return (uint32_t)(bytes[0] << 24 | bytes[1] << 16 | bytes[2] << 8 | bytes[3]);
 }

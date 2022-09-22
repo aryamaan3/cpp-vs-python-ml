@@ -9,11 +9,11 @@ Cependant d'un point de vue logiciel, le langage de programmation le plus utilis
 
 Cette image illustre des benchmarks effectués sur la même machine avec un code similaire en Python et en C++.
 
-On se demande donc pourquoi on n'utilise pas C++ à la place.
+Il est donc possible de se demander pourquoi C++ n’est pas utilisé plus fréquemment.
 
 Ce projet vise à explorer cette question. J'ai codé un algorithme ML simple dans les deux langages, K-nearest neighbour.
 
-En Python, j'ai utilisé des librairies tierces mais je me suis abstenu de toute librairie tierce en C++. Ceci afin de refléter la réalité de l'utilisation de Python dans le contexte du ML.
+En Python, j'ai utilisé des librairies tierces mais je me suis abstenu de toute librairie tierce en C++ afin de refléter la réalité de l'utilisation de Python dans le contexte du ML.
 
 ## Traitement des données
 
@@ -21,13 +21,13 @@ J'ai utilisé le [jeu de données MNIST](https://en.wikipedia.org/wiki/MNIST_dat
 
 ### Python
 
-Relativement facile à lire les données en Python avec l'aide des librairies pandas et numpy. Dans mon cas, je les avait enregistrés dans des fichier `.npy`. Alors je les ai chargés en mémoire.
+Avec l’aide pandas et numpy, les données en Python sont relativement plus simples à lire. Ici, j’ai enregistré ces dernières dans des fichier `.npy` avant de les charger de mémoire.
 
 ### C++
 
 Voici le [jeu de données](http://yann.lecun.com/exdb/mnist/) que j'ai utilisé en C++ car je ne pouvais pas utiliser les fichiers `.npy`. 
 
-Les données sont au format binaire, ce qui est bien lors de l'utilisation de C++, mais j'ai dû parse les données et créer un moyen de les gérer afin de pouvoir les déplacer lors des calculs.
+Les données étant en format binaire, leur lecture est simple en C++. Malgré cela, j’ai dû parse les données et ainsi créer un moyen de les gérer afin de pouvoir les déplacer lors des calculs.
 
 Pour cela, j'ai créé la librairie [dataHandler](https://github.com/aryamaan3/cpp-vs-python-ml/tree/main/dataHandler).
 La librairie dataHandler fournit deux choses :
@@ -44,26 +44,26 @@ Cela a nécessité beaucoup plus de travail qu'en Python. Mais nous sommes prêt
 
 Encore une fois, l'implémentation de KNN en Python à l'aide de librairies comme numpy a été assez simple.
 
-Ma fonction de prédiction calcule la distance euclidienne entre l'image à prédire et chaque image du jeu de données. Ensuite, nous trions les distances et renvoyons le k le plus proche.
+Ma fonction de prédiction calcule la distance euclidienne entre l'image à prédire et chaque image du jeu de données. Ensuite, les distances sont triés et le k le plus proche est renvoyé.
 
-La distance euclidienne est calculée à l'aide de [numpy.linalg.norm](https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html).\
-[numpy.linalg](https://numpy.org/doc/stable/reference/routines.linalg.html) fournit des implémentations de bas niveau de l'algèbre linéaire en Python. Par conséquent, il utilise des langages comme C pour accélérer le temps d'exécution.
+La distance euclidienne est calculée à l'aide de [numpy.linalg](https://numpy.org/doc/stable/reference/routines.linalg.html). Ce dernier fournit des implémentations de bas niveau de l'algèbre linéaire en Python. Par conséquent, il utilise des langages comme C pour accélérer le temps d'exécution.
 
 ### C++
 
-J'ai créé une classe [KNN](https://github.com/aryamaan3/cpp-vs-python-ml/blob/main/knn/include/knn.hpp) qui utilise la classe [Data](https://github.com/aryamaan3/cpp-vs-python-ml/blob/main/dataHandler/include/data.hpp) de la librairie [dataHandler](https://github.com/aryamaan3/cpp-vs-python-ml/tree/main/dataHandler). Le constructeur prends k, les données d'apprentissage et les données de test.
+J'ai créé une classe [KNN](https://github.com/aryamaan3/cpp-vs-python-ml/blob/main/knn/include/knn.hpp) qui utilise la classe [Data](https://github.com/aryamaan3/cpp-vs-python-ml/blob/main/dataHandler/include/data.hpp) de la librairie [dataHandler](https://github.com/aryamaan3/cpp-vs-python-ml/tree/main/dataHandler). Le constructeur prend k, les données d'apprentissage et les données de test.
 
-Comme en Python, la fonction de prédiction calcule la distance euclidienne entre l'image à prédire et chaque image du jeu de données puis un tri pour renvoyer le k le plus proche. Tout cela est fait avec uniquement la librairie standard.
+Comme en Python, la fonction de prédiction calcule la distance euclidienne entre l'image à prédire et chaque image du jeu de données puis un tri pour renvoyer le k le plus proche. Tout cela est fait uniquement grâce à la librairie standard.
 
 ## Build
 
 ### Python
 
-Comme Python est un langage interprété, aucune construction/compilation n'est nécessaire. Le code peut être exécuté directement et les librairies sont automatiquement liées.
+Comme Python est un langage interprété, aucune construction/compilation n'est nécessaire. Le code peut être exécuté directement liant ainsi automatiquement les librairies.
 
 ### C++
 
-En C++, cependant, nous devons compiler manuellement le code avant de l'exécuter. Cela devient fastidieux lorsqu'il s'agit de plusieurs librairies car nous devons toutes les compiler avant de les exécuter.
+Cependant, en C++, le code doit être compilé manuellement avant l'exécution.
+Cela devient fastidieux lorsqu’il s’agit de plusieurs librairies car elles doivent toutes être compilées avant de les exécuter.
 
 J'ai utilisé [Makefile](https://opensource.com/article/18/8/what-how-makefile) pour automatiser le processus de compilation et ajouté un [wrapper bash](https://github.com/aryamaan3/cpp-vs-python-ml/blob/main/build_cpp.sh) qui :
 - exécute le [Makefile](https://github.com/aryamaan3/cpp-vs-python-ml/blob/main/dataHandler/Makefile) de [ dataHandler](https://github.com/aryamaan3/cpp-vs-python-ml/tree/main/dataHandler)
@@ -95,9 +95,11 @@ On remarque que C++ surpasse Python de 20 % en moyenne.
 
 Les résultats montrent que C++ est 20 % plus rapide que Python sur ma machine. Cependant, il m'a fallu beaucoup plus de temps et d'efforts pour coder le programme en C++.
 
-Alors, tout le monde devraient arrêter d'utiliser Python pour le ML ? Bien sûr que non. De plus concernat la démocratisation du ML, Python même s'il est plus lent reste le meilleur choix car il est plus facile à prendre en main. Cela permet à un plus grand nombre de personnes de l'utiliser pour le ML. 
+Alors, tout le monde devraient arrêter d'utiliser Python pour le ML ? Bien sûr que non. 
 
-De plus, la plupart des bibliothèques Python utilisent des langages de bas niveau. Par exemple, 62 % du code de [Tensorflow](https://github.com/tensorflow/tensorflow), l'un des frameworks de deep learning les plus populaires, est écrit en C++.
+Concernant la démocratisation du ML, Python reste tout de même un meilleur choix grâce à sa simplicité. Ainsi, cela permet à un plus grand nombre de personne de l’utiliser pour le ML. 
+
+Enfin, la plupart des librairies Python utilisent des langages de bas niveau. Par exemple, 62 % du code de [Tensorflow](https://github.com/tensorflow/tensorflow), l'un des frameworks de deep learning les plus populaires, est écrit en C++.
 
 ## Reproduction Local
 
@@ -125,4 +127,3 @@ Ou suivre les commandes dans [build_cpp.sh](https://github.com/aryamaan3/cpp-vs-
 
 https://github.com/arinaschwartz/KNN-MNIST \
 https://www.youtube.com/playlist?list=PL79n_WS-sPHKklEvOLiM1K94oJBsGnz71
-

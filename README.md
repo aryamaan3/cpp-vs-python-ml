@@ -99,7 +99,9 @@ Alors, tout le monde devraient arrêter d'utiliser Python pour le ML ? Bien sû
 
 Concernant la démocratisation du ML, Python reste tout de même un meilleur choix grâce à sa simplicité. Ainsi, cela permet à un plus grand nombre de personne de l’utiliser pour le ML. 
 
-Enfin, la plupart des librairies Python utilisent des langages de bas niveau. Par exemple, 62 % du code de [Tensorflow](https://github.com/tensorflow/tensorflow), l'un des frameworks de deep learning les plus populaires, est écrit en C++.
+De plus, la plupart des librairies Python utilisent des langages de bas niveau. Par exemple, 62 % du code de [Tensorflow](https://github.com/tensorflow/tensorflow), l'un des frameworks de deep learning les plus populaires, est écrit en C++.
+
+Enfin, pour un algorithme simple comme KNN les avantages de Python l'emportent sur ceux de C++. Il serait cependant intéressant de comparer leurs performances sur des algorithmes de Deep Learning plus compliqués.
 
 ## Reproduction Local
 

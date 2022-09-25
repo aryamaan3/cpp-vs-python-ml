@@ -120,7 +120,7 @@ $ python knn.py
 ### C++
 
 ```bash
-$ build_cpp.sh
+$ source build_cpp.sh
 ```
 
 Ou suivre les commandes dans [build_cpp.sh](https://github.com/aryamaan3/cpp-vs-python-ml/blob/main/build_cpp.sh) si vous n'êtes pas en bash

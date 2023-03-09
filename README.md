@@ -21,7 +21,7 @@ J'ai utilisé le [jeu de données MNIST](https://en.wikipedia.org/wiki/MNIST_dat
 
 ### Python
 
-Avec l’aide pandas et numpy, les données en Python sont relativement plus simples à lire. Ici, j’ai enregistré ces dernières dans des fichier `.npy` avant de les charger de mémoire.
+Avec l’aide pandas et numpy, les données en Python sont relativement plus simples à lire. Ici, j’ai enregistré ces dernières dans des fichier `.npy` avant de les charger en mémoire.
 
 ### C++
 
